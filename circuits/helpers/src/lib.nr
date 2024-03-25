@@ -200,6 +200,7 @@ pub fn clear_carry_bit(mut status:Status) -> Status {
 pub fn clear_decimal_bit(mut status:Status) -> Status {
 
     status.D = 0;
+    status.D = 0;
 
     status
 }
@@ -230,7 +231,6 @@ pub fn set_interrupt_bit(mut status:Status) -> Status {
 
     status
 }
-
 
 pub fn acc(
     op_sorted_addr: [Field; 1],
