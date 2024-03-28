@@ -131,7 +131,35 @@ fn test_compute_sn_non_empty_status() {
     assert(computed_status.N == 0);
 }
 
+#[test]
 
+fn test_changes_in_not_Power_of_two() {
+     
+    let status = Status {
+        C: 0,
+        Z: 2,
+        I: 4,
+        D: 0,
+        B: 0,
+        U: 32,
+        V: 0,
+        N: 128
+    };
+
+    let num = status_to_num(status);
+
+    assert(num == 0xa6); // 1 0 1 0 0 1 1 0 -> 0 1 1 0 0 1 0 1 reversed
+
+    let mut new_status = status;
+
+    new_status.D = 8;
+    new_status.I = 0;
+
+    let num2 = status_to_num(new_status);
+
+    assert(num2 == 0xaa);
+
+}
 
 pub fn wrapping_add_u16(a: Field, b: Field) -> Field {
     addressing::wrapping_add_u16(a, b)
@@ -199,11 +227,38 @@ pub fn clear_carry_bit(mut status:Status) -> Status {
 
 pub fn clear_decimal_bit(mut status:Status) -> Status {
 
-    status.D=0;
+    status.D = 0;
+    status.D = 0;
 
     status
 }
 
+pub fn set_carry_bit(mut status:Status) -> Status {
+    
+    if (status.C == 0) {
+        status.C = 1;
+    }
+
+    status
+}
+
+pub fn set_decimal_bit(mut status:Status) -> Status {
+
+    if (status.D == 0) {
+        status.D = 8;
+    }
+
+    status
+}
+
+pub fn set_interrupt_bit(mut status:Status) -> Status {
+
+    if (status.I == 0) {
+        status.I = 4;
+    }
+
+    status
+}
 
 pub fn acc(
     op_sorted_addr: [Field; 1],
